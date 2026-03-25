@@ -208,6 +208,12 @@ class StudentIteratorMatter4(Iterator):
     return cls
 @add_iterator_matter4
 class SchoolClass(Iterable):
+    _instance = None
+
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            cls._instance = super(SchoolClass, cls).__new__(cls)
+        return cls._instance
         def iter_matter_2(self):
         return StudentIteratorMatter2(self.students)
 
@@ -217,9 +223,9 @@ class SchoolClass(Iterable):
     def __iter__(self):
         return StudentIterator(self.students)
 
-    def __init__(self):
+   def __init__(self):
+    if not hasattr(self, "students"):
         self.students = []
-
     def add_student(self, student):
         def __iter__(self):
         return StudentIterator(self.students)
@@ -308,3 +314,9 @@ for student in school_class.students:
       print("\nIteration matière 4 :")
 for student in school_class.iter_matter_4():
     print(f"  {student.name} : {student.notes[3]}/20")
+print("\nTest Singleton :")
+
+sc1 = SchoolClass()
+sc2 = SchoolClass()
+
+print("Même instance ?", sc1 is sc2)
