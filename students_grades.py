@@ -133,23 +133,9 @@ if __name__ == "__main__":
         terminale.ajouter_etudiant(e)
 
     terminale.afficher_classements()
-class StudentIterator(Iterator):
-    """Itérateur qui parcourt les étudiants du meilleur au plus mauvais pour la matière 1."""
 
-    def __init__(self, students):
-        self._students = sorted(students, key=lambda s: s.notes[0], reverse=True)
-        self._index = 0
-
-    def __next__(self):
-        if self._index >= len(self._students):
-            raise StopIteration
-        student = self._students[self._index]
-        self._index += 1
-        return student
-
-    def __iter__(self):
-        return self
-class SchoolClass(Iterable):
+    
+class SchoolClass:
     """Alias anglais de Classe."""
 
     def __init__(self):
@@ -157,8 +143,7 @@ class SchoolClass(Iterable):
 
     def add_student(self, student):
         self.students.append(student)
-def __iter__(self):
-        return StudentIterator(self.students)
+
     def display_rankings(self):
         matieres = ["subject1", "subject2", "subject3"]
         for i, matiere in enumerate(matieres):
@@ -205,9 +190,7 @@ def rank_matter_2(self):
         ranked = sorted(self.students, key=lambda s: s.notes[2], reverse=True)
         for rang, s in enumerate(ranked, 1):
             print(f"  {rang}. {s.name} : {s.notes[2]}/20")
-print("\nIteration sur les étudiants (matière 1) :")
-for student in school_class:
-    print(f"  {student.name} : {student.notes[0]}/20")
+
 school_class.add_student(Student('J', 10, 12, 13))
 school_class.add_student(Student('A', 8, 2, 17))
 school_class.add_student(Student('V', 9, 14, 14))
@@ -216,3 +199,62 @@ school_class.display_rankings()
 school_class.rank_matter_1()
 school_class.rank_matter_2()
 school_class.rank_matter_3()
+# --------------------------------------------------------------------
+#  EXERCICE : rendre SchoolClass itérable avec un StudentIterator
+# --------------------------------------------------------------------
+
+class Student:
+    """Étudiant simplifié pour l'exercice."""
+    def __init__(self, name: str, note1: float, note2: float, note3: float):
+        self.name = name
+        self.notes = [note1, note2, note3]
+
+    def average(self) -> float:
+        return sum(self.notes) / len(self.notes)
+
+
+class StudentIterator(Iterator):
+    """Itérateur qui parcourt les étudiants du meilleur au plus mauvais pour la matière 1."""
+    def __init__(self, students):
+        self._students = sorted(students, key=lambda s: s.notes[0], reverse=True)
+        self._index = 0
+
+    def __next__(self):
+        if self._index >= len(self._students):
+            raise StopIteration
+        student = self._students[self._index]
+        self._index += 1
+        return student
+
+    def __iter__(self):
+        return self
+
+
+class SchoolClass(Iterable):
+    """Classe simple pour l'exercice."""
+    def __init__(self):
+        self.students = []
+
+    def add_student(self, student):
+        self.students.append(student)
+
+    def __iter__(self):
+        """Renvoie un itérateur triant les étudiants par note de matière 1."""
+        return StudentIterator(self.students)
+
+
+# --------------------------------------------------------------------
+#  TEST DE L’EXERCICE
+# --------------------------------------------------------------------
+
+if __name__ == "__main__":
+    print("\n--- TEST ITERATION SUR SchoolClass ---")
+
+    school_class = SchoolClass()
+    school_class.add_student(Student('J', 10, 12, 13))
+    school_class.add_student(Student('A', 8, 2, 17))
+    school_class.add_student(Student('V', 9, 14, 14))
+
+    print("\nItération sur les étudiants (tri matière 1) :")
+    for student in school_class:
+        print(f"  {student.name} : {student.notes[0]}/20")
