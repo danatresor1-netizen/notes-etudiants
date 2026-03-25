@@ -174,9 +174,24 @@ def rank_matter_1(self):
         ranked = sorted(self.students, key=lambda s: s.notes[0], reverse=True)
         for rang, s in enumerate(ranked, 1):
             print(f"  {rang}. {s.name} : {s.notes[0]}/20")
+def rank_matter_2(self):
+        """Affiche les étudiants classés par ordre décroissant de la matière 2."""
+        print("\nRanking for matter 2:")
+        ranked = sorted(self.students, key=lambda s: s.notes[1], reverse=True)
+        for rang, s in enumerate(ranked, 1):
+            print(f"  {rang}. {s.name} : {s.notes[1]}/20")
+
+    def rank_matter_3(self):
+        """Affiche les étudiants classés par ordre décroissant de la matière 3."""
+        print("\nRanking for matter 3:")
+        ranked = sorted(self.students, key=lambda s: s.notes[2], reverse=True)
+        for rang, s in enumerate(ranked, 1):
+            print(f"  {rang}. {s.name} : {s.notes[2]}/20")
 school_class.add_student(Student('J', 10, 12, 13))
 school_class.add_student(Student('A', 8, 2, 17))
 school_class.add_student(Student('V', 9, 14, 14))
 
 school_class.display_rankings()
 school_class.rank_matter_1()
+school_class.rank_matter_2()
+school_class.rank_matter_3()
