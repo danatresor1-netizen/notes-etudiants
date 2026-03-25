@@ -132,3 +132,44 @@ if __name__ == "__main__":
         terminale.ajouter_etudiant(e)
 
     terminale.afficher_classements()
+class SchoolClass:
+    """Alias anglais de Classe."""
+
+    def __init__(self):
+        self.students = []
+
+    def add_student(self, student):
+        self.students.append(student)
+
+    def display_rankings(self):
+        matieres = ["subject1", "subject2", "subject3"]
+        for i, matiere in enumerate(matieres):
+            print(f"\nRanking for {matiere}:")
+            ranked = sorted(self.students, key=lambda s: s.notes[i], reverse=True)
+            for rang, s in enumerate(ranked, 1):
+                print(f"  {rang}. {s.name} : {s.notes[i]}/20")
+
+        print(f"\nGeneral average ranking:")
+        ranked = sorted(self.students, key=lambda s: s.average(), reverse=True)
+        for rang, s in enumerate(ranked, 1):
+            print(f"  {rang}. {s.name} : {s.average():.2f}/20")
+
+
+class Student:
+    """Alias anglais de Etudiant."""
+
+    def __init__(self, name: str, note1: float, note2: float, note3: float):
+        self.name = name
+        self.notes = [note1, note2, note3]
+
+    def average(self) -> float:
+        return sum(self.notes) / len(self.notes)
+
+
+# Test
+school_class = SchoolClass()
+school_class.add_student(Student('J', 10, 12, 13))
+school_class.add_student(Student('A', 8, 2, 17))
+school_class.add_student(Student('V', 9, 14, 14))
+
+school_class.display_rankings()
