@@ -169,7 +169,22 @@ class StudentIteratorMatter3(Iterator):
     def __iter__(self):
         return self
     """Itérateur qui parcourt les étudiants du meilleur au plus mauvais pour la matière 1."""
+class StudentIteratorMatter4(Iterator):
+    """Itérateur pour la matière 4."""
 
+    def __init__(self, students):
+        self._students = sorted(students, key=lambda s: s.notes[3], reverse=True)
+        self._index = 0
+
+    def __next__(self):
+        if self._index >= len(self._students):
+            raise StopIteration
+        student = self._students[self._index]
+        self._index += 1
+        return student
+
+    def __iter__(self):
+        return self
     def __init__(self, students):
         self._students = sorted(students, key=lambda s: s.notes[0], reverse=True)
         self._index = 0
@@ -183,7 +198,16 @@ class StudentIteratorMatter3(Iterator):
 
     def __iter__(self):
         return self 
-class SchoolClass:
+        def add_iterator_matter4(cls):
+    """Décorateur pour ajouter un itérateur pour la matière 4."""
+
+    def iter_matter_4(self):
+        return StudentIteratorMatter4(self.students)
+
+    cls.iter_matter_4 = iter_matter_4
+    return cls
+@add_iterator_matter4
+class SchoolClass(Iterable):
         def iter_matter_2(self):
         return StudentIteratorMatter2(self.students)
 
@@ -281,4 +305,6 @@ for student in school_class.iter_matter_3():
 print("\nAprès ajout de la 4ème matière :")
 for student in school_class.students:
     print(f"{student.name} : {student.notes}")
-      
+      print("\nIteration matière 4 :")
+for student in school_class.iter_matter_4():
+    print(f"  {student.name} : {student.notes[3]}/20")
