@@ -214,7 +214,19 @@ class SchoolClass:
         for rang, s in enumerate(ranked, 1):
             print(f"  {rang}. {s.name} : {s.average():.2f}/20")
 
+def add_fourth_subject(cls):
+    """Décorateur pour ajouter une 4ème matière à tous les étudiants."""
 
+    original_init = cls.__init__
+
+    def new_init(self, name, note1, note2, note3):
+        original_init(self, name, note1, note2, note3)
+        self.notes.append(0)  # valeur par défaut pour la 4ème matière
+
+    cls.__init__ = new_init
+    return cls
+@add_fourth_subject
+@add_fourth_subject
 class Student:
     """Alias anglais de Etudiant."""
 
@@ -266,5 +278,7 @@ for student in school_class.iter_matter_2():
 print("\nIteration matière 3 :")
 for student in school_class.iter_matter_3():
     print(f"  {student.name} : {student.notes[2]}/20")
-
+print("\nAprès ajout de la 4ème matière :")
+for student in school_class.students:
+    print(f"{student.name} : {student.notes}")
       
