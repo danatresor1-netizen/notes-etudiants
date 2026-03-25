@@ -134,6 +134,40 @@ if __name__ == "__main__":
     terminale.afficher_classements()
 
    class StudentIterator(Iterator):
+       class StudentIteratorMatter2(Iterator):
+    """Itérateur pour la matière 2."""
+
+    def __init__(self, students):
+        self._students = sorted(students, key=lambda s: s.notes[1], reverse=True)
+        self._index = 0
+
+    def __next__(self):
+        if self._index >= len(self._students):
+            raise StopIteration
+        student = self._students[self._index]
+        self._index += 1
+        return student
+
+    def __iter__(self):
+        return self
+
+
+class StudentIteratorMatter3(Iterator):
+    """Itérateur pour la matière 3."""
+
+    def __init__(self, students):
+        self._students = sorted(students, key=lambda s: s.notes[2], reverse=True)
+        self._index = 0
+
+    def __next__(self):
+        if self._index >= len(self._students):
+            raise StopIteration
+        student = self._students[self._index]
+        self._index += 1
+        return student
+
+    def __iter__(self):
+        return self
     """Itérateur qui parcourt les étudiants du meilleur au plus mauvais pour la matière 1."""
 
     def __init__(self, students):
@@ -150,6 +184,11 @@ if __name__ == "__main__":
     def __iter__(self):
         return self 
 class SchoolClass:
+        def iter_matter_2(self):
+        return StudentIteratorMatter2(self.students)
+
+    def iter_matter_3(self):
+        return StudentIteratorMatter3(self.students)
     """Alias anglais de Classe."""
     def __iter__(self):
         return StudentIterator(self.students)
@@ -220,6 +259,12 @@ school_class.display_rankings()
 school_class.rank_matter_1()
 school_class.rank_matter_2()
 school_class.rank_matter_3()
+print("\nIteration matière 2 :")
+for student in school_class.iter_matter_2():
+    print(f"  {student.name} : {student.notes[1]}/20")
 
+print("\nIteration matière 3 :")
+for student in school_class.iter_matter_3():
+    print(f"  {student.name} : {student.notes[2]}/20")
 
       
