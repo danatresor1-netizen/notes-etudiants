@@ -201,48 +201,6 @@ school_class.display_rankings()
 school_class.rank_matter_1()
 school_class.rank_matter_2()
 school_class.rank_matter_3()
-# --------------------------------------------------------------------
-#  EXERCICE : rendre SchoolClass itérable avec un StudentIterator
-# --------------------------------------------------------------------
-
-class Student:
-    """Étudiant simplifié pour l'exercice."""
-    def __init__(self, name: str, note1: float, note2: float, note3: float):
-        self.name = name
-        self.notes = [note1, note2, note3]
-
-    def average(self) -> float:
-        return sum(self.notes) / len(self.notes)
-
-
-class StudentIterator(Iterator):
-    """Itérateur qui parcourt les étudiants du meilleur au plus mauvais pour la matière 1."""
-    def __init__(self, students):
-        self._students = sorted(students, key=lambda s: s.notes[0], reverse=True)
-        self._index = 0
-
-    def __next__(self):
-        if self._index >= len(self._students):
-            raise StopIteration
-        student = self._students[self._index]
-        self._index += 1
-        return student
-
-    def __iter__(self):
-        return self
-
-
-class SchoolClass(Iterable):
-    """Classe simple pour l'exercice."""
-    def __init__(self):
-        self.students = []
-
-    def add_student(self, student):
-        self.students.append(student)
-
-    def __iter__(self):
-        """Renvoie un itérateur triant les étudiants par note de matière 1."""
-        return StudentIterator(self.students)
 
 
        print("\nIteration sur les étudiants (matière 1) :")
